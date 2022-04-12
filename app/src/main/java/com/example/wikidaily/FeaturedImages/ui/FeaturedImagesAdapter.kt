@@ -45,6 +45,7 @@ class FeaturedImagesAdapter(private val list : ArrayList<Page?>, private val lif
             setImage(holder.img,
                 it.query?.pages?.pageList?.get(position)?.imageinfo?.url.toString(),position)
         }
+
 //        viewModel.imageList?.query?.pages?.pageList?.get(position)?.imageinfo?.url?.let {
 //            //   holder.binding.imageView.setImageDrawable(holder.itemView.resources.getDrawable(R.drawable.ic_broken_image))
 //            viewModel.viewModelScope.launch(Dispatchers.IO) {

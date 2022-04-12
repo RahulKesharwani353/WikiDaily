@@ -4,9 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "images")
-data class ImageinfoItem( @PrimaryKey(autoGenerate = true)
-                        var imageId : Int,
+
+data class ImageinfoItem(
                         var timestamp: String? = null,
                           var user: String? = null,
                           var url: String? = null,

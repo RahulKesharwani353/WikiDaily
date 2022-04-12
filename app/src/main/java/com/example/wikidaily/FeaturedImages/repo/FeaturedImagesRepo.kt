@@ -1,17 +1,23 @@
 package com.example.wikidaily.FeaturedImages.repo
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.wikidaily.FeaturedImages.Models.Continue
-import com.example.wikidaily.FeaturedImages.Models.FeaturedImagesList
-import com.example.wikidaily.FeaturedImages.Models.ImageinfoItem
-import com.example.wikidaily.FeaturedImages.Models.Page
+import androidx.room.PrimaryKey
+
+import com.example.newsify.utlis.NetworksUtil
+import com.example.wikidaily.FeaturedImages.Models.*
 import com.example.wikidaily.FeaturedImages.api.FeaturedImagesServices
+
 import org.json.JSONObject
 import retrofit2.http.Query
 
-class FeaturedImagesRepo(private val featuredImageService: FeaturedImagesServices) {
+class FeaturedImagesRepo(private val featuredImageService: FeaturedImagesServices,
+                         //private val imagesDatabase: ImagesDatabase,
+                         private val context: Context
+) {
 
     var imageList: FeaturedImagesList? = FeaturedImagesList()
 
@@ -30,20 +36,37 @@ class FeaturedImagesRepo(private val featuredImageService: FeaturedImagesService
         gcmtitle: String,
         format: String
     ) {
-        val result = featuredImageService.getFeaturedImages()
-        parseImages(result)
+        if (NetworksUtil.isOnline(context)){
+            val result = featuredImageService.getFeaturedImages()
+            parseImages(result)
+        }
+        else{
+            Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+//            val images  = imagesDatabase.newsDatabase().getImage()
+//            val newImgList = Pages(images as ArrayList<Page?>)
+//            featuredImageLiveData.postValue(imageList)
+        }
+
+
 
     }
 
 
     suspend fun continueLoadingImages(continuee : String) {
-        val result = featuredImageService.getFeatureContinueImages(continuee)
-        parseImages(result)
+        if (NetworksUtil.isOnline(context)){
+            val result = featuredImageService.getFeatureContinueImages(continuee)
+            parseImages(result)
+        }
+        else{
+            Toast.makeText(context, "No Internet", Toast.LENGTH_SHORT).show()
+
+        }
+
         // isContinuedImagesLoaded = true
 
     }
 
-    fun parseImages(jsonAsString: String) {
+    suspend fun parseImages(jsonAsString: String) {
         val jsonObj: JSONObject = JSONObject(jsonAsString)
 
 
@@ -63,7 +86,7 @@ class FeaturedImagesRepo(private val featuredImageService: FeaturedImagesService
                 page.getString("ns").toInt(),
                 page.getString("title"),
                 page.getString("imagerepository"),
-                ImageinfoItem(url = imageinfo.getJSONObject(0).getString("url"))
+                ImageinfoItem(url = imageinfo.getJSONObject(0).getString("url")),
             )
             Log.d("JasonDataAya", pageObj.toString())
             imageList?.query?.pages?.pageList?.add(pageObj)
@@ -71,6 +94,7 @@ class FeaturedImagesRepo(private val featuredImageService: FeaturedImagesService
 
 
         }
+//        imageList?.query?.pages?.let { imagesDatabase.newsDatabase().addImage(it.pageList) }
         featuredImageLiveData.postValue(imageList)
     }
 }

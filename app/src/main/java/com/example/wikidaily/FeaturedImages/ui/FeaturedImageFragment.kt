@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.example.wikidaily.FeaturedImages.Models.FeaturedImagesList
 import com.example.wikidaily.FeaturedImages.Models.Page
 import com.example.wikidaily.FeaturedImages.api.FeaturedImagesServices
@@ -21,6 +22,7 @@ import com.example.wikidaily.FeaturedImages.repo.FeaturedImagesRepo
 import com.example.wikidaily.FeaturedImages.viewModels.MainViewModel
 import com.example.wikidaily.FeaturedImages.viewModels.ViewModelFactory
 import com.example.wikidaily.R
+import com.example.wikidaily.WikiAppilcation
 import com.example.wikidaily.databinding.FragmentFeaturedImageBinding
 import kotlinx.coroutines.launch
 
@@ -41,9 +43,7 @@ class FeaturedImageFragment : Fragment() {
         binding = FragmentFeaturedImageBinding.inflate(layoutInflater,container,false)
 
 // viewModel BaNANA
-        val featuredImagesServices = RetrofitHelper.getRetrofitBuilder().create(
-            FeaturedImagesServices::class.java)
-        val repo = FeaturedImagesRepo(featuredImagesServices)
+        val repo= (activity?.application as WikiAppilcation).featuredImagesRepo
         viewmodel = ViewModelProvider(this, ViewModelFactory(repo))[MainViewModel::class.java]
 //
 //
@@ -76,23 +76,23 @@ class FeaturedImageFragment : Fragment() {
 
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        viewmodel.isimageListchanged.observe(viewLifecycleOwner) {
-//            if (viewmodel.isimageListchanged.value == true) {
-//                adapter.notifyItemInserted(viewmodel.imageListSize)
-//                viewmodel.featuredImages.observe(viewLifecycleOwner){
-//                    viewmodel.imageListSize = it.query?.pages?.pageList?.size!!
 //
-//                }
-////                viewmodel.isimageListchanged.value = false
-//            }
-//        }
-
-//        binding.testText.text = list[0]?.imageinfo?.url
-
-    }
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+////        viewmodel.isimageListchanged.observe(viewLifecycleOwner) {
+////            if (viewmodel.isimageListchanged.value == true) {
+////                adapter.notifyItemInserted(viewmodel.imageListSize)
+////                viewmodel.featuredImages.observe(viewLifecycleOwner){
+////                    viewmodel.imageListSize = it.query?.pages?.pageList?.size!!
+////
+////                }
+//////                viewmodel.isimageListchanged.value = false
+////            }
+////        }
+//
+////        binding.testText.text = list[0]?.imageinfo?.url
+//
+//    }
 
 }

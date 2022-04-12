@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.wikidaily.FeaturedImages.ui.FeaturedImageFragment
 import com.example.wikidaily.databinding.FragmentFeaturedImageBinding
+import com.example.wikidaily.randomArticle.ui.RandomArticleFragment
 
 class   PagerAdapter(fragManager: FragmentManager) : FragmentPagerAdapter(fragManager) {
     override fun getCount(): Int = 3
@@ -13,17 +14,17 @@ class   PagerAdapter(fragManager: FragmentManager) : FragmentPagerAdapter(fragMa
         when (position) {
             0 -> return FeaturedImageFragment()
 //            1 -> return FragmentCategories()
-//            2 -> return FragmentRandomPages()
+            1 -> return RandomArticleFragment()
             else -> return FeaturedImageFragment()
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        when (position) {
-            0 -> return "Featured Images"
-            1 -> return "Categories"
-            2 -> return "Random Pages"
-            else -> return "Feature images"
+        return when (position) {
+            0 -> "Featured Images"
+            1 -> "Random Article"
+            2 -> "Categories"
+            else -> "Feature images"
         }
     }
 }
