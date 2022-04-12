@@ -17,15 +17,12 @@ interface FeaturedImagesServices {
 //
 //    ) : Response<FeaturedImagesList>
 
-    @GET("/w/api.php")
-    suspend fun getFeaturedImages(@Query("action") action: String,
-                                  @Query("prop") prop: String,
-                                  @Query("iiprop") iiprop: String,
-                                  @Query("generator") generator: String,
-                                  @Query("gcmtype") gcmtype: String,
-                                  @Query("gcmtitle") gcmtitle: String,
-                                  @Query("format") format: String
+    @GET("api.php?action=query&prop=imageinfo&iiprop=timestamp%7Cuser%7Curl&generator=categorymembers&gcmtype=file&gcmtitle=Category:Featured_pictures_on_Wikimedia_Commons&format=json&utf8")
+    suspend fun getFeaturedImages(
+    ) : String
 
-    ) : Response<FeaturedImagesList>
+    @GET("api.php?action=query&prop=imageinfo&iiprop=timestamp|user|url&generator=categorymembers&gcmtype=file&gcmtitle=Category:Featured_pictures_on_Wikimedia_Commons&format=json&utf8")
+    suspend fun getFeatureContinueImages(@Query("gcmcontinue") continueStr: String): String
+
 
 }
