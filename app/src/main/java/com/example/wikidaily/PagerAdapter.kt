@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.wikidaily.FeaturedImages.ui.FeaturedImageFragment
+import com.example.wikidaily.category.ui.CategoryFragment
 import com.example.wikidaily.databinding.FragmentFeaturedImageBinding
 import com.example.wikidaily.randomArticle.ui.RandomArticleFragment
 
@@ -13,7 +14,7 @@ class   PagerAdapter(fragManager: FragmentManager) : FragmentPagerAdapter(fragMa
     override fun getItem(position: Int): Fragment {
         when (position) {
             0 -> return FeaturedImageFragment()
-//            1 -> return FragmentCategories()
+            2 -> return CategoryFragment()
             1 -> return RandomArticleFragment()
             else -> return FeaturedImageFragment()
         }
